@@ -4,14 +4,14 @@
 \alias{make_names}
 \title{Standardize variable names}
 \usage{
-make_names(var_names)
+make_names(names)
 }
 \arguments{
-\item{var_names}{vector of variable names}
+\item{names}{character vector to be coerced to syntactically valid names. This is coerced to character if necessary.}
 }
 \value{
-cleaned up variable names
+A character vector of same length as \code{names} with each changed to a normalized variable name.
 }
 \description{
-\code{make_names} returns a list that has been normalized to lowercase separated by underscores
+Normalize names to lowercase separated by underscores from character vector.
 }
