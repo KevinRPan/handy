@@ -25,14 +25,16 @@ hello <- function() {
   print("Hello, world!")
 }
 
-#' @rdname make_names
+#' @title Standardize variable names
 #'
-#' make_names
+#' @description
+#' \code{make_names} returns a vector that has been normalized to lowercase separated by underscores
 #'
 #' @param var_names vector of variable names
 #'
 #' @return cleaned up variable names
 #'
+#' @usage
 #' @export
 make_names <- function(var_names) {
   # Function to clean up column names
