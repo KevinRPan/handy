@@ -1,7 +1,3 @@
-#' You can learn more about package authoring with RStudio at:
-#'
-#'   http://r-pkgs.had.co.nz/
-#'
 #' Some useful keyboard shortcuts for package authoring:
 #'
 #'   Build and Reload Package:  'Ctrl + Shift + B'
@@ -9,8 +5,8 @@
 #'   Test Package:              'Ctrl + Shift + T'
 
 #' @importFrom magrittr "%>%"
+#' @importFrom magrittr "%<>%"
 
-# exportPattern("^[[:alpha:]]+")
 devtools::use_package("dplyr")
 devtools::use_package("tidyverse")
 devtools::use_package("magrittr")
@@ -60,11 +56,3 @@ removeColumns <- function(df, .uniqueness = 1) {
   return(df[df %>% purrr::map_lgl(~ length(unique(na.omit(.x)))>.uniqueness)])
 }
 
-#
-# my_fun <- function(a, b) {
-#   if (!requireNamespace("pkg", quietly = TRUE)) {
-#     stop("Pkg needed for this function to work. Please install it.",
-#          call. = FALSE)
-#   }
-# }
-#

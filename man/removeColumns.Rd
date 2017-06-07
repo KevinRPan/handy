@@ -20,7 +20,7 @@ Remove columns with less than a specified number of distinct values.
 }
 \examples{
 \dontrun{
-df <- data.frame('x' = letters, 'y' = rep(0, length(letters)), z = rep(NA, length(letters)))
+df <- head(data.frame('x' = letters, 'y' = rep(0, length(letters)), z = rep(NA, length(letters))))
 removeColumns(df)
 removeColumns(df, 0)
 }
