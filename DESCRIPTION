@@ -1,0 +1,19 @@
+Package: handy
+Title: Provides Useful Functionality
+Version: 0.0.0.9000
+Authors@R: person("Kevin", "Pan", email = "kevin.r.pan@gmail.com", role = c("aut", "cre"))
+Description: This package provides commonly used functions 
+    for examining, manipulating, and outputting data. 
+Depends: R (>= 3.3.3)
+License: No license.
+Encoding: UTF-8
+LazyData: true
+Imports:
+    dplyr, 
+    magrittr, 
+    purrr,
+    stringr,
+    tidyverse
+Suggests:
+    DT
+RoxygenNote: 6.0.1
