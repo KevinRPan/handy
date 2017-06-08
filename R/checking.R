@@ -17,10 +17,8 @@ devtools::use_package("stringr")
 #' @return Dataframe with an added row for the totals of numeric variables.
 #' May require explicitly converting NAs.
 #' @examples
-#' \dontrun{
 #' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
 #' addTotalRow(df)
-#' }
 #' @export
 addTotalRow <- function(df, .na_rm = FALSE) {
   if("grouped_df" %in% class(df)){ df %<>% dplyr::ungroup }
@@ -54,10 +52,8 @@ pct_missings_chr <- function(df) {
 #'
 #' @return Dataframe with Unique Values, Percent Missing and Examples
 #' @examples
-#' \dontrun{
 #' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
 #' checkVariables(df)
-#' }
 #' @export
 checkVariables <- function(df,num_unique_vals = 3) {
   ## How many unique values do variables take on?

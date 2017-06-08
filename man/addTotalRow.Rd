@@ -19,8 +19,6 @@ May require explicitly converting NAs.
 Add a total row to a dataframe where the first column is the category.
 }
 \examples{
-\dontrun{
 df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
 addTotalRow(df)
-}
 }

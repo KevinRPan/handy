@@ -18,8 +18,6 @@ Dataframe with Unique Values, Percent Missing and Examples
 Get a snapshot preview of what variables are available and what they look like.
 }
 \examples{
-\dontrun{
 df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
 checkVariables(df)
-}
 }

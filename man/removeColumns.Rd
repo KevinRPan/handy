@@ -19,9 +19,7 @@ Note: using 0 will remove columns where all observations are NA.
 Remove columns with less than a specified number of distinct values.
 }
 \examples{
-\dontrun{
 df <- head(data.frame('x' = letters, 'y' = rep(0, length(letters)), z = rep(NA, length(letters))))
 removeColumns(df)
 removeColumns(df, 0)
-}
 }

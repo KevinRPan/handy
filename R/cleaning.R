@@ -1,9 +1,3 @@
-#' Some useful keyboard shortcuts for package authoring:
-#'
-#'   Build and Reload Package:  'Ctrl + Shift + B'
-#'   Check Package:             'Ctrl + Shift + E'
-#'   Test Package:              'Ctrl + Shift + T'
-
 #' @importFrom magrittr "%>%"
 #' @importFrom magrittr "%<>%"
 
@@ -46,11 +40,9 @@ make_names <- function(names) {
 #' @return A dataframe with columns removed.
 #' Note: using 0 will remove columns where all observations are NA.
 #' @examples
-#' \dontrun{
 #' df <- head(data.frame('x' = letters, 'y' = rep(0, length(letters)), z = rep(NA, length(letters))))
 #' removeColumns(df)
 #' removeColumns(df, 0)
-#' }
 #' @export
 removeColumns <- function(df, .uniqueness = 1) {
   return(df[df %>% purrr::map_lgl(~ length(unique(na.omit(.x)))>.uniqueness)])
