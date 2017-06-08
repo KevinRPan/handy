@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: person("Kevin", "Pan", email = "kevin.r.pan@gmail.com", role = c("aut", "cre"))
 Description: This package provides commonly used functions 
     for examining, manipulating, and outputting data. 
-Depends: R (>= 3.3.3)
+Depends: R (>= 3.3.2)
 License: GPL-3.
 Encoding: UTF-8
 LazyData: true
