@@ -15,13 +15,15 @@ devtools::use_package("stringr")
 #' @param names character vector to be coerced to syntactically valid names. This is coerced to character if necessary.
 #'
 #' @return A character vector of same length as \code{names} with each changed to a normalized variable name.
-#'
+#' @examples
+#' n <- c('An', 'ex.amPLE', ' of me$$y', 'var__i@ble names  ')
+#' make_names(n)
 #' @export
 make_names <- function(names) {
   # Function to clean up column names
   names %>%
-    stringr::str_trim %>%
-    tolower %>%
+    stringr::str_trim() %>%
+    tolower() %>%
     make.names(unique = TRUE) %>%
     stringr::str_replace_all('[.]', '_') %>%
     stringr::str_replace_all('__{1,4}', '_') %>%

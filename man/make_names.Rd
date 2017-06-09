@@ -15,3 +15,7 @@ A character vector of same length as \code{names} with each changed to a normali
 \description{
 Normalize names to lowercase separated by underscores from character vector.
 }
+\examples{
+n <- c('An', 'ex.amPLE', ' of me$$y', 'var__i@ble names  ')
+make_names(n)
+}
