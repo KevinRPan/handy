@@ -21,7 +21,7 @@ devtools::use_package("stringr")
 #' addTotalRow(df)
 #' @export
 addTotalRow <- function(df, .na_rm = FALSE) {
-  if("grouped_df" %in% class(df)){ df %<>% dplyr::ungroup }
+  if("grouped_df" %in% class(df)){ df %<>% dplyr::ungroup() }
   df %>%
     dplyr::mutate_at(1, function(x) ifelse(is.na(x), 'NA', as.character(x))) %>%
     dplyr::bind_rows(
