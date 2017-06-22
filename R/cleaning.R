@@ -31,6 +31,24 @@ make_names <- function(names) {
     return
 }
 
+#' @title Standardize variable names
+#' @name normVarNames
+#'
+#' @description
+#' Normalize names to lowercase separated by underscores from character vector.
+#'
+#' @param df A dataframe to be coerced to have syntactically valid names.
+#'
+#' @return A dataframe with normalized variable names.
+#' @examples
+#' d <- data.frame(list('An'=1, 'ex.amPLE'=2, ' of me$$y'=3, 'var__i@ble names  '=4))
+#' normVarNames(d)
+#' @export
+normVarNames <- function(df) {
+  # Function to clean up column names
+  return(magrittr::set_names(df, make_names(names(df))))
+}
+
 #' @title Remove columns based on a number of distinct values
 #'
 #' @description

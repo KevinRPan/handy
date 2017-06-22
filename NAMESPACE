@@ -3,6 +3,7 @@
 export(addTotalRow)
 export(checkVariables)
 export(make_names)
+export(normVarNames)
 export(removeColumns)
 importFrom(magrittr,"%<>%")
 importFrom(magrittr,"%>%")
