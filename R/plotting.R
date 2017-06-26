@@ -73,7 +73,7 @@ scale_y_human <- function(..., smbl = "", signif = 1) {
 }
 #' @export
 scale_x_human <- function(...) {
-  scale_x_continuous(labels = human_num, ...)
+  scale_x_continuous(labels = function(x) human_numbers(x, smbl = smbl, signif = signif), ...)
 }
 
 #' @export
