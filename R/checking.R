@@ -5,6 +5,7 @@ devtools::use_package("dplyr")
 devtools::use_package("tidyverse")
 devtools::use_package("magrittr")
 devtools::use_package("stringr")
+devtools::use_package("XLConnect")
 
 #' @title Add a total row to a dataframe
 #'
@@ -28,6 +29,36 @@ addTotalRow <- function(df, .na_rm = FALSE) {
       df %>%
         dplyr::select(-1) %>%
         purrr::map_dbl(sum, na.rm = .na_rm) %>%
+        as.data.frame %>%
+        t %>%
+        tibble::as_tibble()
+    ) %>%
+    dplyr::mutate_at(1, function(x) ifelse(is.na(x), 'Total', x)) %>%
+    return
+}
+
+#' @title Add a mean row to a dataframe
+#'
+#' @description
+#' Add a mean row to a dataframe where the first column is the category.
+#'
+#' @param df the input dataframe
+#' @param .na_rm option to remove NA from sum
+#'
+#' @return Dataframe with an added row for the totals of numeric variables.
+#' May require explicitly converting NAs.
+#' @examples
+#' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
+#' addTotalRow(df)
+#' @export
+addMeanRow <- function(df, .na_rm = FALSE) {
+  if("grouped_df" %in% class(df)){ df %<>% dplyr::ungroup() }
+  df %>%
+    dplyr::mutate_at(1, function(x) ifelse(is.na(x), 'NA', as.character(x))) %>%
+    dplyr::bind_rows(
+      df %>%
+        dplyr::select(-1) %>%
+        purrr::map_dbl(mean, na.rm = .na_rm) %>%
         as.data.frame %>%
         t %>%
         tibble::as_tibble()
@@ -74,4 +105,55 @@ checkVariables <- function(df,num_unique_vals = 3) {
     stats::setNames(c('Unique Values', 'Percent Missing', 'Example Values'))
 }
 
+
+#' @title Write to Excel
+#'
+#' @description
+#' Writes a list of dataframe objects to an Excel workbook.
+#'
+#'
+#' @param dfs the input dataframes as a list
+#' @param sheet_names formatted names of sheets
+#' @param workbook_fname workbook file name to save to
+#' @param title_names whether to title format variable names
+#'
+#' @return nothing
+#' @examples
+#' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
+#' writeExcel(list(df),
+#'            'DF',
+#'            'wb.xlsx',
+#'            title_names = TRUE)
+#' @export
+writeExcel <-
+  function(dfs,
+           sheet_names,
+           workbook_fname,
+           title_names = FALSE) {
+    wb <- XLConnect::loadWorkbook(workbook_fname, create = TRUE)
+    ## Set a header style
+    csHeader <- XLConnect::createCellStyle(wb, name = "header")
+    XLConnect::setFillPattern(csHeader, fill = XLC$FILL.NO_FILL)
+    XLConnect::setBorder(csHeader,
+                         side = "bottom",
+                         type = XLC$BORDER.THIN,
+                         color = XLC$COLOR.BLACK)
+    purrr::map2(dfs, sheet_names,
+                function(df, sheet_name) {
+                  XLConnect::createSheet(wb, sheet_name)
+                  if (title_names) {
+                    df %<>%
+                      setNames(names(df) %>%
+                                 stringr::str_replace_all('_', ' ') %>%
+                                 stringr::str_to_title())
+                  }
+                  XLConnect::writeWorksheet(wb, df, sheet_name)
+                  XLConnect::setCellStyle(wb,
+                                          sheet = sheet_name,
+                                          row = 1,
+                                          col =  seq(length.out = ncol(df)),
+                                          cellstyle = csHeader)
+                })
+    XLConnect::saveWorkbook(wb)
+  }
 
