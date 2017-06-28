@@ -106,6 +106,29 @@ checkVariables <- function(df,num_unique_vals = 3) {
 }
 
 
+#' @title Spread based on selected variables
+#'
+#' @description
+#' Select and spread data
+#'
+#' @param df the input dataframe
+#' @param group_cols the columns to group by
+#' @param spread_col the column to spread by
+#' @param spread_val the column values to spread
+#' @param fill_val filling missing with what value
+#'
+#' @return dataframe that is spread based on values
+#' @examples
+#' df <- data.frame('id' = c(rep('x',2), rep('y',3),'z'), 'g' = letters[1:6], 'v' = 1:6)
+#' spreadColumn(df, 'id','g','v')
+#' @export
+spreadColumn <- function(df, group_cols, spread_col, spread_val, fill_val = 0) {
+  df %>%
+    dplyr::select_(.dots = c(group_cols, spread_col, spread_val)) %>%
+    tidyr::spread_(spread_col, spread_val, fill = fill_val)
+}
+
+
 #' @title Write to Excel
 #'
 #' @description

@@ -6,7 +6,23 @@ devtools::use_package("tidyverse")
 devtools::use_package("magrittr")
 devtools::use_package("stringr")
 
-
+#' @title asQuarterDate
+#' @description Convert discrete year and quarter to date for plotting purposes.
+#'
+#' @return a date variable according to the start date of the quarter
+#' @param year a year that makes sense
+#' @param quarter a quarter, 1 to 4
+#' @param day a day that makes sense
+#'
+#' @signif the number of significant places you want the function to return
+#' @examples
+#' asQuarterDate(2008,1,
+#' @export
+asQuarterDate <- function(year, quarter, day = 1) {
+  stopifnot(quarter %in% 1:4)
+  stopifnot(day %in% 1:31)
+  as.Date(paste(year, (as.numeric(quarter)-1) * 3 + 1, day, sep = '-'))
+}
 
 # ---------------------------------------------------------------------------------------------
 # Formatting functions for ggplot  graph axis
