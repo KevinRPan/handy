@@ -65,7 +65,7 @@ addMeanRow <- function(df, .na_rm = FALSE) {
         t %>%
         tibble::as_tibble()
     ) %>%
-    dplyr::mutate_at(1, function(x) ifelse(is.na(x), 'Total', x)) %>%
+    dplyr::mutate_at(1, function(x) ifelse(is.na(x), 'Average', x)) %>%
     return
 }
 
