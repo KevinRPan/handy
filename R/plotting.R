@@ -14,7 +14,6 @@ devtools::use_package("stringr")
 #' @param quarter a quarter, 1 to 4
 #' @param day a day that makes sense
 #'
-#' @signif the number of significant places you want the function to return
 #' @examples
 #' asQuarterDate(2008,1,
 #' @export
@@ -40,8 +39,8 @@ asQuarterDate <- function(year, quarter, day = 1) {
 #'
 #' @return a character vector the same length as the input vector
 #' @param x a numeric vector to format,
-#' @smbl a symbol you'd like to prefix your numbers by e.g. "$"
-#' @signif the number of significant places you want the function to return
+#' @param smbl a symbol you'd like to prefix your numbers by e.g. "$"
+#' @param signif the number of significant places you want the function to return
 #' @examples
 #' human_numbers(c(1000000 , 1500000, 10000000000))
 #' human_numbers(c(1.200000e+05, -2.154660e+05, 2.387790e+05, 4.343500e+04 ,5.648675e+12), "$")

@@ -8,6 +8,10 @@ human_numbers(x = NULL, smbl = "", signif = 1)
 }
 \arguments{
 \item{x}{a numeric vector to format,}
+
+\item{smbl}{a symbol you'd like to prefix your numbers by e.g. "$"}
+
+\item{signif}{the number of significant places you want the function to return}
 }
 \value{
 a character vector the same length as the input vector

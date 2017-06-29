@@ -2,7 +2,9 @@
 #' @importFrom magrittr "%<>%"
 
 devtools::use_package("dplyr")
-devtools::use_package("tidyverse")
+devtools::use_package("purrr")
+devtools::use_package("tibble")
+devtools::use_package("tidyr")
 devtools::use_package("magrittr")
 devtools::use_package("stringr")
 devtools::use_package("XLConnect")
@@ -102,7 +104,7 @@ checkVariables <- function(df,num_unique_vals = 3) {
   ) %>%
     t %>%
     as.data.frame %>%
-    stats::setNames(c('Unique Values', 'Percent Missing', 'Example Values'))
+    magrittr::set_names(c('Unique Values', 'Percent Missing', 'Example Values'))
 }
 
 

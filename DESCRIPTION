@@ -1,5 +1,5 @@
 Package: handy
-Title: Provides Useful Functionality
+Title: Useful Functionality for Miscellaneous Data Processing
 Version: 0.1.0
 Authors@R: person("Kevin", "Pan", email = "kevin.r.pan@gmail.com", role = c("aut", "cre"))
 Description: This package provides commonly used functions 
@@ -14,7 +14,9 @@ Imports:
     purrr,
     stringr,
     tidyverse,
-    XLConnect
+    XLConnect,
+    tibble,
+    tidyr
 Suggests:
     DT
 RoxygenNote: 6.0.1

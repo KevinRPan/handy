@@ -2,7 +2,7 @@
 #' @importFrom magrittr "%<>%"
 
 devtools::use_package("dplyr")
-devtools::use_package("tidyverse")
+devtools::use_package("purrr")
 devtools::use_package("magrittr")
 devtools::use_package("stringr")
 
