@@ -16,7 +16,8 @@ Imports:
     tidyverse,
     XLConnect,
     tibble,
-    tidyr
+    tidyr,
+    XLConnectJars
 Suggests:
     DT
 RoxygenNote: 6.0.1

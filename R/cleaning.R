@@ -6,6 +6,30 @@ devtools::use_package("purrr")
 devtools::use_package("magrittr")
 devtools::use_package("stringr")
 
+
+#' @title Make a character vector without quotes
+#' @name cs
+#'
+#' @description
+#' Make a character vector without quotes.
+#' Ignores if the values entered are variable names
+#'
+#' @param ... This is coerced to a character vector
+#'
+#' @return A character vector of the input values.
+#'
+#' @examples
+#' a <- TRUE
+#' string_arb <- cs(a, b, c)
+#' string_arb
+#' #> "a" "b" "c"
+#'
+#' @export
+cs <- function(...){
+  strings <- as.character(match.call(expand.dots = FALSE)[[2]])
+  return(strings)
+}
+
 #' @title Standardize variable names
 #' @name make_names
 #'

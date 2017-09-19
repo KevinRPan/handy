@@ -8,6 +8,7 @@ devtools::use_package("tidyr")
 devtools::use_package("magrittr")
 devtools::use_package("stringr")
 devtools::use_package("XLConnect")
+devtools::use_package("XLConnectJars")
 
 #' @title Add a total row to a dataframe
 #'
