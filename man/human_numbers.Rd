@@ -3,6 +3,9 @@
 \name{human_numbers}
 \alias{human_numbers}
 \title{Human Numbers}
+\source{
+https://github.com/fdryan/R/blob/master/ggplot2_formatter.r
+}
 \usage{
 human_numbers(x = NULL, smbl = "", signif = 1)
 }

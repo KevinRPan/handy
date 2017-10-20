@@ -5,6 +5,7 @@ devtools::use_package("dplyr")
 devtools::use_package("purrr")
 devtools::use_package("tibble")
 devtools::use_package("tidyr")
+devtools::use_package("broom")
 devtools::use_package("magrittr")
 devtools::use_package("stringr")
 devtools::use_package("XLConnect")
@@ -24,7 +25,7 @@ devtools::use_package("XLConnectJars")
 #' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
 #' addTotalRow(df)
 #' @export
-addTotalRow <- function(df, .na_rm = FALSE) {
+add_total_row <- function(df, .na_rm = FALSE) {
   if("grouped_df" %in% class(df)){ df %<>% dplyr::ungroup() }
   df %>%
     dplyr::mutate_at(1, function(x) ifelse(is.na(x), 'NA', as.character(x))) %>%
@@ -54,7 +55,7 @@ addTotalRow <- function(df, .na_rm = FALSE) {
 #' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
 #' addTotalRow(df)
 #' @export
-addMeanRow <- function(df, .na_rm = FALSE) {
+add_mean_row <- function(df, .na_rm = FALSE) {
   if("grouped_df" %in% class(df)){ df %<>% dplyr::ungroup() }
   df %>%
     dplyr::mutate_at(1, function(x) ifelse(is.na(x), 'NA', as.character(x))) %>%
@@ -89,7 +90,7 @@ pct_missings_chr <- function(df) {
 #' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
 #' checkVariables(df)
 #' @export
-checkVariables <- function(df,num_unique_vals = 3) {
+check_variables <- function(df, num_unique_vals = 3) {
   ## How many unique values do variables take on?
   dplyr::bind_cols(
     df %>%
@@ -125,7 +126,7 @@ checkVariables <- function(df,num_unique_vals = 3) {
 #' df <- data.frame('id' = c(rep('x',2), rep('y',3),'z'), 'g' = letters[1:6], 'v' = 1:6)
 #' spreadColumn(df, 'id','g','v')
 #' @export
-spreadColumn <- function(df, group_cols, spread_col, spread_val, fill_val = 0) {
+spread_column <- function(df, group_cols, spread_col, spread_val, fill_val = 0) {
   df %>%
     dplyr::select_(.dots = c(group_cols, spread_col, spread_val)) %>%
     tidyr::spread_(spread_col, spread_val, fill = fill_val)
@@ -133,6 +134,74 @@ spreadColumn <- function(df, group_cols, spread_col, spread_val, fill_val = 0) {
 
 
 #' @title Write to Excel
+#'
+#' @description
+#' Writes a list of dataframe objects to an Excel workbook.
+#'
+#'
+#' @param dfs the input dataframes as a list
+#' @param workbook_fname workbook file name to save to
+#' @param sheet_names formatted names of sheets, if not using object names as defaults
+#' @param title_names whether to title format variable names
+#'
+#' @return nothing
+#' @examples
+#' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
+#' writeExcel(list(df),
+#'            'wb.xlsx',
+#'            title_names = TRUE)
+#' @export
+write_excel <-
+  function(dfs,
+           workbook_fname,
+           sheet_names,
+           title_names = FALSE) {
+
+    ## Transform to list if only single dataframe
+    if("data.frame" %in% class(dfs)) {
+      data_name <- dfs %>% substitute %>% as.character
+      dfs <- list(dfs) %>% set_names(data_name)
+      }
+
+    ## Fill sheet_names with object names as default
+    if(missing(sheet_names)) {
+      sheet_names <- names(dfs)
+    }
+
+    wb <- XLConnect::loadWorkbook(workbook_fname, create = TRUE)
+    ## Set a header style
+    csHeader <- XLConnect::createCellStyle(wb, name = "header")
+    XLConnect::setFillPattern(csHeader,
+                              fill  = XLConnect::XLC$FILL.NO_FILL)
+    XLConnect::setBorder(     csHeader,
+                              side  = "bottom",
+                              type  = XLConnect::XLC$BORDER.THIN,
+                              color = XLConnect::XLC$COLOR.BLACK)
+
+    ## Map to sheets
+    purrr::map2(
+      dfs, sheet_names,
+      function(df, sheet_name) {
+        XLConnect::createSheet(wb, sheet_name)
+        if (title_names) {
+          df %<>%
+            setNames(names(df) %>%
+                       stringr::str_replace_all('_', ' ') %>%
+                       stringr::str_to_title())
+        }
+        XLConnect::writeWorksheet(wb, df, sheet_name)
+        XLConnect::setCellStyle(
+          wb,
+          sheet = sheet_name,
+          row = 1,
+          col =  seq(length.out = ncol(df)),
+          cellstyle = csHeader
+        )
+      })
+    XLConnect::saveWorkbook(wb)
+  }
+
+#' @title Deprecated write to Excel (renamed)
 #'
 #' @description
 #' Writes a list of dataframe objects to an Excel workbook.
@@ -151,35 +220,26 @@ spreadColumn <- function(df, group_cols, spread_col, spread_val, fill_val = 0) {
 #'            'wb.xlsx',
 #'            title_names = TRUE)
 #' @export
-writeExcel <-
-  function(dfs,
-           sheet_names,
-           workbook_fname,
-           title_names = FALSE) {
-    wb <- XLConnect::loadWorkbook(workbook_fname, create = TRUE)
-    ## Set a header style
-    csHeader <- XLConnect::createCellStyle(wb, name = "header")
-    XLConnect::setFillPattern(csHeader, fill = XLC$FILL.NO_FILL)
-    XLConnect::setBorder(csHeader,
-                         side = "bottom",
-                         type = XLC$BORDER.THIN,
-                         color = XLC$COLOR.BLACK)
-    purrr::map2(dfs, sheet_names,
-                function(df, sheet_name) {
-                  XLConnect::createSheet(wb, sheet_name)
-                  if (title_names) {
-                    df %<>%
-                      setNames(names(df) %>%
-                                 stringr::str_replace_all('_', ' ') %>%
-                                 stringr::str_to_title())
-                  }
-                  XLConnect::writeWorksheet(wb, df, sheet_name)
-                  XLConnect::setCellStyle(wb,
-                                          sheet = sheet_name,
-                                          row = 1,
-                                          col =  seq(length.out = ncol(df)),
-                                          cellstyle = csHeader)
-                })
-    XLConnect::saveWorkbook(wb)
+writeExcel <- function(dfs,
+                       sheet_names,
+                       workbook_fname,
+                       title_names = FALSE) {
+  write_excel(dfs,
+              workbook_fname,
+              sheet_names,
+              title_names = title_names
+  )
   }
 
+write_regression_to_excel <- function(reg_models,
+                                      sheets,
+                                      excel_file_name,
+                                      title_names = TRUE
+                                      ) {
+  tidy_regs <- reg_models %>% map(broom::tidy())
+
+  handy::write_excel(tidy_regs,
+                    sheet_names = sheets,
+                    workbook_fname = excel_file_name,
+                    title_names = title_names)
+}

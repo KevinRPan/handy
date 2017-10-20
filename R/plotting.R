@@ -6,7 +6,7 @@ devtools::use_package("tidyverse")
 devtools::use_package("magrittr")
 devtools::use_package("stringr")
 
-#' @title asQuarterDate
+#' @title quarter_as_date
 #' @description Convert discrete year and quarter to date for plotting purposes.
 #'
 #' @return a date variable according to the start date of the quarter
@@ -15,12 +15,14 @@ devtools::use_package("stringr")
 #' @param day a day that makes sense
 #'
 #' @examples
-#' asQuarterDate(2008,1,
+#' quarter_as_date(2008, 1, 15)
 #' @export
-asQuarterDate <- function(year, quarter, day = 1) {
+quarter_as_date <- function(year, quarter, day = 1) {
   stopifnot(quarter %in% 1:4)
   stopifnot(day %in% 1:31)
-  as.Date(paste(year, (as.numeric(quarter)-1) * 3 + 1, day, sep = '-'))
+  lubridate::make_date(year = year,
+                       month = (as.numeric(quarter) - 1) * 3 + 1,
+                       day = day)
 }
 
 
@@ -52,6 +54,7 @@ asQuarterDate <- function(year, quarter, day = 1) {
 #' human_numbers(c(1.200000e+05, -2.154660e+05, 2.387790e+05, 4.343500e+04 ,5.648675e+12), "$")
 #' ggplot2 + scale_y_continuous(labels = human_numbers)
 #' ggplot2 + scale_x_continuous(labels = human_numbers)
+#' @source https://github.com/fdryan/R/blob/master/ggplot2_formatter.r
 #' @export
 
 human_numbers <- function(x = NULL, smbl ="", signif = 1){
@@ -93,7 +96,7 @@ scale_y_human <- function(..., smbl = "", signif = 1) {
   scale_y_continuous(labels = function(x) human_numbers(x, smbl = smbl, signif = signif), ...)
 }
 #' @export
-scale_x_human <- function(...) {
+scale_x_human <- function(..., smbl = "", signif = 1) {
   scale_x_continuous(labels = function(x) human_numbers(x, smbl = smbl, signif = signif), ...)
 }
 
