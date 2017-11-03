@@ -47,6 +47,7 @@ make_names <- function(names) {
   # Function to clean up column names
   names %>%
     stringr::str_trim() %>%
+    stringr::str_replace("%","pct") %>%
     tolower() %>%
     make.names(unique = TRUE) %>%
     stringr::str_replace_all('[.]', '_') %>%
@@ -54,6 +55,27 @@ make_names <- function(names) {
     stringr::str_replace_all('_$', '') %>%
     return
 }
+
+
+#' @title Make variable names into title case
+#' @name title_names
+#'
+#' @description
+#' Replace underscores with spaces and make title case.
+#'
+#' @param df dataframe with names as character vector with underscore separation
+#'
+#' @return dataframe with names printed for reading
+#' @export
+title_names <- function(df) {
+  df %<>%
+    magrittr::set_names(
+      names(.) %>%
+        stringr::str_replace_all('_', ' ') %>%
+        stringr::str_to_title()
+    )
+}
+
 
 #' @title Standardize variable names
 #' @name normVarNames
