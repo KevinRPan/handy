@@ -2,7 +2,7 @@ Package: handy
 Title: Useful Functionality for Miscellaneous Data Processing
 Version: 0.1.0
 Authors@R: person("Kevin", "Pan", email = "kevin.r.pan@gmail.com", role = c("aut", "cre"))
-Description: This package provides commonly used functions 
+Description: This package provides handy functions 
     for examining, manipulating, and outputting data. 
 Depends: R (>= 3.3.2)
 License: GPL-3.
@@ -18,7 +18,8 @@ Imports:
     tibble,
     tidyr,
     XLConnectJars,
-    broom
+    broom,
+    grid
 Suggests:
     DT
 RoxygenNote: 6.0.1
