@@ -27,11 +27,13 @@ quarter_as_date <- function(year, quarter, day = 1) {
 }
 
 
-#' @title %p%
+#' @title Paste magic function
 #' @description Paste characters. Yay.
 #'
 #' @export
-`%p%` <- function(x1, x2) {paste0(x1, x2)}
+`%p%` <- function(x1, x2) {
+  paste0(x1, x2)
+}
 
 # ---------------------------------------------------------------------------------------------
 # Formatting functions for ggplot  graph axis

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting.R
 \name{\%p\%}
 \alias{\%p\%}
-\title{%p%}
+\title{Paste magic function}
 \usage{
 x1 \%p\% x2
 }

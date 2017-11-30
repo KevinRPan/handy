@@ -2,7 +2,7 @@
 % Please edit documentation in R/cleaning.R
 \name{cs}
 \alias{cs}
-\title{Make a character vector without quotes}
+\title{c for strings}
 \usage{
 cs(...)
 }

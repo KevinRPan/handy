@@ -7,7 +7,7 @@ devtools::use_package("magrittr")
 devtools::use_package("stringr")
 
 
-#' @title Make a character vector without quotes
+#' @title c for strings
 #' @name cs
 #'
 #' @description
@@ -47,7 +47,7 @@ make_names <- function(names) {
   # Function to clean up column names
   names %>%
     stringr::str_trim() %>%
-    stringr::str_replace("%","pct") %>%
+    stringr::str_replace("%","percent") %>%
     tolower() %>%
     make.names(unique = TRUE) %>%
     stringr::str_replace_all('[.]', '_') %>%
@@ -78,7 +78,7 @@ title_names <- function(df) {
 
 
 #' @title Standardize variable names
-#' @name normVarNames
+#' @name clean_names
 #'
 #' @description
 #' Normalize names to lowercase separated by underscores from character vector.
@@ -90,7 +90,7 @@ title_names <- function(df) {
 #' d <- data.frame(list('An'=1, 'ex.amPLE'=2, ' of me$$y'=3, 'var__i@ble names  '=4))
 #' normVarNames(d)
 #' @export
-normVarNames <- function(df) {
+clean_names <- function(df) {
   # Function to clean up column names
   return(magrittr::set_names(df, make_names(names(df))))
 }
