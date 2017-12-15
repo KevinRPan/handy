@@ -11,9 +11,9 @@ write_excel(dfs, workbook_fname, sheet_names, title_names = FALSE)
 
 \item{workbook_fname}{workbook file name to save to}
 
-\item{sheet_names}{formatted names of sheets, if not using object names as defaults}
+\item{sheet_names}{(optional) formatted names of sheets, if not using object names as defaults}
 
-\item{title_names}{whether to title format variable names}
+\item{title_names}{(optional) whether to title format variable names}
 }
 \value{
 nothing
@@ -23,7 +23,7 @@ Writes a list of dataframe objects to an Excel workbook.
 }
 \examples{
 df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
-writeExcel(list(df),
-           'wb.xlsx',
-           title_names = TRUE)
+write_excel(df,
+            'wb.xlsx',
+            title_names = TRUE)
 }

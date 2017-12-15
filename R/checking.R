@@ -141,15 +141,15 @@ spread_column <- function(df, group_cols, spread_col, spread_val, fill_val = 0) 
 #'
 #' @param dfs the input dataframes as a list
 #' @param workbook_fname workbook file name to save to
-#' @param sheet_names formatted names of sheets, if not using object names as defaults
-#' @param title_names whether to title format variable names
+#' @param sheet_names (optional) formatted names of sheets, if not using object names as defaults
+#' @param title_names (optional) whether to title format variable names
 #'
 #' @return nothing
 #' @examples
 #' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
-#' writeExcel(list(df),
-#'            'wb.xlsx',
-#'            title_names = TRUE)
+#' write_excel(df,
+#'             'wb.xlsx',
+#'             title_names = TRUE)
 #' @export
 write_excel <-
   function(dfs,
@@ -158,26 +158,33 @@ write_excel <-
            title_names = FALSE) {
 
     ## Transform to list if only single dataframe
-    if("data.frame" %in% class(dfs)) {
-      data_name <- dfs %>% substitute %>% as.character
-      dfs <- list(dfs) %>% set_names(data_name)
-      }
+    if ("data.frame" %in% class(dfs)) {
+      dfs <- list(df = dfs)
+    }
 
     ## Fill sheet_names with object names as default
-    if(missing(sheet_names)) {
+    if (missing(sheet_names)) {
       sheet_names <- names(dfs)
     }
 
     wb <- XLConnect::loadWorkbook(workbook_fname, create = TRUE)
-    ## Set a header style
-    csHeader <- XLConnect::createCellStyle(wb, name = "header")
-    XLConnect::setFillPattern(csHeader,
-                              fill  = XLConnect::XLC$FILL.NO_FILL)
-    XLConnect::setBorder(     csHeader,
-                              side  = "bottom",
-                              type  = XLConnect::XLC$BORDER.THIN,
-                              color = XLConnect::XLC$COLOR.BLACK)
-
+    ## Set a cell style header
+    tryCatch(
+      ## if one exists already, continue
+      csHeader <- XLConnect::getCellStyle(wb, "header"),
+      ## if not, make one
+      error = function(e) {
+        csHeader <- XLConnect::createCellStyle(wb, name = "header")
+        XLConnect::setFillPattern(csHeader,
+                                  fill  = XLConnect::XLC$FILL.NO_FILL)
+        XLConnect::setBorder(
+          csHeader,
+          side  = "bottom",
+          type  = XLConnect::XLC$BORDER.THIN,
+          color = XLConnect::XLC$COLOR.BLACK
+        )
+      }
+    )
     ## Map to sheets
     purrr::map2(
       dfs, sheet_names,
