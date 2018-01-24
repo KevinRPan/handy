@@ -12,9 +12,9 @@ write_regression_to_excel(reg_models, excel_file_name, sheets,
 
 \item{title_names}{whether to title format variable names}
 
-\item{sheet_names}{formatted names of sheets}
-
 \item{workbook_fname}{workbook file name to save to}
+
+\item{sheet_names}{formatted names of sheets}
 }
 \value{
 nothing
@@ -23,9 +23,15 @@ nothing
 Writes a list of dataframe objects to an Excel workbook.
 }
 \examples{
-df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
-writeExcel(list(df),
-           'DF',
-           'wb.xlsx',
-           title_names = TRUE)
+# Basic Example
+mod <- lm(mpg ~ cyl, mtcars)
+write_regression_to_excel(mod, 'simple_reg.xlsx')
+
+# Writing a list of regressions
+mod_hp <- lm(mpg ~ hp, mtcars)
+
+mod_list <- list(mod_cyl = mod, mod_hp = mod_hp)
+write_regression_to_excel(mod_list, 'mpg_regs.xlsx')
+
+write_regression_to_excel(mod_list, 'simple_reg.xlsx', c("Cylinder Model", "HP Model"))
 }

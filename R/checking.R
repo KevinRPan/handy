@@ -211,35 +211,6 @@ write_excel <-
     XLConnect::saveWorkbook(wb)
   }
 
-#' @title Deprecated write to Excel (renamed)
-#'
-#' @description
-#' Writes a list of dataframe objects to an Excel workbook.
-#'
-#'
-#' @param dfs the input dataframes as a list
-#' @param sheet_names formatted names of sheets
-#' @param workbook_fname workbook file name to save to
-#' @param title_names whether to title format variable names
-#'
-#' @return nothing
-#' @examples
-#' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
-#' writeExcel(list(df),
-#'            'DF',
-#'            'wb.xlsx',
-#'            title_names = TRUE)
-#' @export
-writeExcel <- function(dfs,
-                       sheet_names,
-                       workbook_fname,
-                       title_names = FALSE) {
-  write_excel(dfs,
-              workbook_fname,
-              sheet_names,
-              title_names = title_names
-  )
-  }
 
 #' @title Write a regression to Excel
 #'
@@ -248,17 +219,23 @@ writeExcel <- function(dfs,
 #'
 #'
 #' @param reg_models regression models, as a list
-#' @param sheet_names formatted names of sheets
 #' @param workbook_fname workbook file name to save to
+#' @param sheet_names formatted names of sheets
 #' @param title_names whether to title format variable names
 #'
 #' @return nothing
 #' @examples
-#' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
-#' writeExcel(list(df),
-#'            'DF',
-#'            'wb.xlsx',
-#'            title_names = TRUE)
+#' # Basic Example
+#' mod <- lm(mpg ~ cyl, mtcars)
+#' write_regression_to_excel(mod, 'simple_reg.xlsx')
+#'
+#' # Writing a list of regressions
+#' mod_hp <- lm(mpg ~ hp, mtcars)
+#'
+#' mod_list <- list(mod_cyl = mod, mod_hp = mod_hp)
+#' write_regression_to_excel(mod_list, 'mpg_regs.xlsx')
+#'
+#' write_regression_to_excel(mod_list, 'simple_reg.xlsx', c("Cylinder Model", "HP Model"))
 #' @export
 write_regression_to_excel <- function(reg_models,
                                       excel_file_name,

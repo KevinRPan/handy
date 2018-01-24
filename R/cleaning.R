@@ -107,10 +107,10 @@ clean_names <- function(df) {
 #' Note: using 0 will remove columns where all observations are NA.
 #' @examples
 #' df <- head(data.frame('x' = letters, 'y' = rep(0, length(letters)), z = rep(NA, length(letters))))
-#' removeColumns(df)
-#' removeColumns(df, 0)
+#' remove_columns(df)
+#' remove_columns(df, 0)
 #' @export
-removeColumns <- function(df, .uniqueness = 1) {
+remove_columns <- function(df, .uniqueness = 1) {
   return(df[df %>% purrr::map_lgl(~ length(unique(na.omit(.x)))>.uniqueness)])
 }
 

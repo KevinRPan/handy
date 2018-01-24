@@ -24,16 +24,36 @@ You are welcome to:
 
 ## Cleaning data with handy
 
+There are common steps that a data analyst faces:
+
+- Import (messy) data
+- *Clean* messy data
+- *Describe* cleaned data
+- *Plot* cleaned data
+- Model data
+- *Write* output tables
+
+This package aims to facilitate this basic data handling. 
+
+These functions are ones that I've found handy. 
+
+
 **Quick Reference Table** 
 
-| handy Function | Description |
-|----------------------|----------------------|
-| `cs`  | Makes a character vector without quotes |
-| `normVarNames` |  Normalize variable names of a data.frame to snake_case |
-| `addTotalRow`  |  Add a total row to a data.frame of numeric values |
-| `removeColumns` | Removes columns that are either missing or non-unique |   
-| `scale_x_human` | Scales ggplot axis to K, M, B, etc. |
-| `checkVariables` | Create table describing % missing and number of unique values for all variables |
-| `writeExcel` | Write a list of data.frames in R to named sheets in an Excel workbook |
+| handy Function    | Use Case     | Description |
+|-------------------|--------------|----------------------|
+| `clean_names`     |  Clean Data      | Normalize variable names of a data.frame to snake_case |
+| `title_names`     |  Clean Data      | Normalize variable names of a data.frame to Title Case |
+| `remove_columns`  |  Clean Data      | Removes columns that are either missing or non-unique |   
+| `add_mean_row`    |  Describe Data   | Add a mean row to a data.frame of numeric values |
+| `add_total_row`   |  Describe Data   | Add a total row to a data.frame of numeric values |
+| `check_variables` |  Describe Data   | Create table describing % missing and number of unique values for all variables |
+| `%p%`             |  Shorthand       | Allow string concatenation by piping |
+| `cs`              |  Shorthand       | Makes a character vector without quotes |
+| `multiplot`       |  Plotting        | Arrange multiple plots |
+| `scale_x_human`   |  Plotting        | Scales ggplot axis to easily readable K, M, B, etc. |
+| `scale_y_human`   |  Plotting        | Scales ggplot axis to easily readable K, M, B, etc. |
+| `write_excel`     |  Write Output    | Write a list of data.frames in R to named sheets in an Excel workbook |
+| `write_regression_to_excel` | Write Output | Write a list of data.frames in R to named sheets in an Excel workbook |
 
 Note: package is under development and functions available may change. 
