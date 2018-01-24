@@ -168,43 +168,46 @@ write_excel <-
     }
 
     wb <- XLConnect::loadWorkbook(workbook_fname, create = TRUE)
+
     ## Set a cell style header
-    tryCatch(
-      ## if one exists already, continue
-      csHeader <- XLConnect::getCellStyle(wb, "header"),
-      ## if not, make one
-      error = function(e) {
-        csHeader <- XLConnect::createCellStyle(wb, name = "header")
-        XLConnect::setFillPattern(csHeader,
-                                  fill  = XLConnect::XLC$FILL.NO_FILL)
-        XLConnect::setBorder(
-          csHeader,
-          side  = "bottom",
-          type  = XLConnect::XLC$BORDER.THIN,
-          color = XLConnect::XLC$COLOR.BLACK
-        )
-      }
+
+    csHeader <- tryCatch({
+      # try to create one
+      csHeader <- XLConnect::createCellStyle(wb, name = "header")
+    }, error = function(e) {
+      # if one exists, use existing
+      csHeader <- XLConnect::getCellStyle(wb, "header")
+    })
+
+    XLConnect::setFillPattern(
+      csHeader,
+      fill  = XLConnect::XLC$FILL.NO_FILL)
+    XLConnect::setBorder(
+      csHeader,
+      side  = "bottom",
+      type  = XLConnect::XLC$BORDER.THIN,
+      color = XLConnect::XLC$COLOR.BLACK
     )
+
     ## Map to sheets
-    purrr::map2(
-      dfs, sheet_names,
-      function(df, sheet_name) {
-        XLConnect::createSheet(wb, sheet_name)
-        if (title_names) {
-          df %<>%
-            setNames(names(df) %>%
-                       stringr::str_replace_all('_', ' ') %>%
-                       stringr::str_to_title())
-        }
-        XLConnect::writeWorksheet(wb, df, sheet_name)
-        XLConnect::setCellStyle(
-          wb,
-          sheet = sheet_name,
-          row = 1,
-          col =  seq(length.out = ncol(df)),
-          cellstyle = csHeader
-        )
-      })
+    purrr::map2(dfs, sheet_names,
+                function(df, sheet_name) {
+                  XLConnect::createSheet(wb, sheet_name)
+                  if (title_names) {
+                    df %<>%
+                      setNames(names(df) %>%
+                                 stringr::str_replace_all('_', ' ') %>%
+                                 stringr::str_to_title())
+                  }
+                  XLConnect::writeWorksheet(wb, df, sheet_name)
+                  XLConnect::setCellStyle(
+                    wb,
+                    sheet = sheet_name,
+                    row = 1,
+                    col =  seq(length.out = ncol(df)),
+                    cellstyle = csHeader
+                  )
+                })
     XLConnect::saveWorkbook(wb)
   }
 
@@ -238,15 +241,40 @@ writeExcel <- function(dfs,
   )
   }
 
+#' @title Write a regression to Excel
+#'
+#' @description
+#' Writes a list of dataframe objects to an Excel workbook.
+#'
+#'
+#' @param reg_models regression models, as a list
+#' @param sheet_names formatted names of sheets
+#' @param workbook_fname workbook file name to save to
+#' @param title_names whether to title format variable names
+#'
+#' @return nothing
+#' @examples
+#' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
+#' writeExcel(list(df),
+#'            'DF',
+#'            'wb.xlsx',
+#'            title_names = TRUE)
+#' @export
 write_regression_to_excel <- function(reg_models,
-                                      sheets,
                                       excel_file_name,
+                                      sheets,
                                       title_names = TRUE
                                       ) {
-  tidy_regs <- reg_models %>% map(broom::tidy())
 
-  handy::write_excel(tidy_regs,
-                    sheet_names = sheets,
-                    workbook_fname = excel_file_name,
-                    title_names = title_names)
+  ## Transform to list if only single dataframe
+  if ("lm" %in% class(reg_models)) {
+    reg_models <- list(mod = reg_models)
+  }
+
+  tidy_regs <- purrr::map(reg_models, broom::tidy)
+
+  write_excel(tidy_regs,
+                     workbook_fname = excel_file_name,
+                     sheet_names = sheets,
+                     title_names = title_names)
 }
