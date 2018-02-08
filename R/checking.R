@@ -287,12 +287,20 @@ write_regression_to_excel <- function(reg_models,
 #' @description
 #' Describe objects in memory
 #'
-#' @param n    how many objects to return
+#' @param n     Numeric of how many objects to return
+#' @param ...   Other optional parameters:
+#' \itemize{
+#' \item \code{pos(integer)}: position in search list
+#' \item \code{pattern(character)}: an optional regular expression
+#' \item \code{order.by(character or integer)}: which column to order by
+#' \item \code{decreasing(logical)}: whether to sort by decreasing
+#' \item \code{head(logical)}: whether to return the first part only
+#' }
 #'
 #' @return printed description of objects in memory
 #'
+#' @source Tony Breyal's post attributed to JD Long at:
 #' @source https://stackoverflow.com/questions/1358003/tricks-to-manage-the-available-memory-in-an-r-session
-#' @source Tony Breyal
 #'
 #' @examples
 #' lsos()

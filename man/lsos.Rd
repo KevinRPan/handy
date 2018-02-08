@@ -4,15 +4,24 @@
 \alias{lsos}
 \title{Memory check}
 \source{
-https://stackoverflow.com/questions/1358003/tricks-to-manage-the-available-memory-in-an-r-session
+Tony Breyal's post attributed to JD Long at:
 
-Tony Breyal
+https://stackoverflow.com/questions/1358003/tricks-to-manage-the-available-memory-in-an-r-session
 }
 \usage{
 lsos(..., n = 10)
 }
 \arguments{
-\item{n}{how many objects to return}
+\item{...}{Other optional parameters:
+\itemize{
+\item \code{pos(integer)}: position in search list
+\item \code{pattern(character)}: an optional regular expression
+\item \code{order.by(character or integer)}: which column to order by
+\item \code{decreasing(logical)}: whether to sort by decreasing
+\item \code{head(logical)}: whether to return the first part only
+}}
+
+\item{n}{Numeric of how many objects to return}
 }
 \value{
 printed description of objects in memory
