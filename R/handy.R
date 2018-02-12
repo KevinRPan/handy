@@ -1,6 +1,7 @@
-#' handy: A package that contains several commonly used functions for cleaning and examining data.
-#'
-#' The handy package provides some functions that I found handy.
+#' @keywords internal
+"_PACKAGE"
+
+#' handy: Commonly used functions for handling data.
 #'
 #' @docType package
 #' @name handy

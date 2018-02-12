@@ -27,18 +27,19 @@ devtools::use_package("XLConnectJars")
 #' @export
 add_total_row <- function(df, .na_rm = FALSE) {
   if("grouped_df" %in% class(df)){ df %<>% dplyr::ungroup() }
-  df %>%
+
+  added_row <- df %>%
+    dplyr::select_if(is.numeric) %>%
+    purrr::map_dbl(sum, na.rm = .na_rm) %>%
+    as.data.frame %>%
+    t %>%
+    tibble::as_tibble()
+
+  df %<>%
     dplyr::mutate_at(1, function(x) ifelse(is.na(x), 'NA', as.character(x))) %>%
-    dplyr::bind_rows(
-      df %>%
-        dplyr::select(-1) %>%
-        purrr::map_dbl(sum, na.rm = .na_rm) %>%
-        as.data.frame %>%
-        t %>%
-        tibble::as_tibble()
-    ) %>%
-    dplyr::mutate_at(1, function(x) ifelse(is.na(x), 'Total', x)) %>%
-    return
+    dplyr::bind_rows(added_row)
+  df[nrow(df), 1] <- "Total"
+  return(df)
 }
 
 #' @title Add a mean row to a dataframe
@@ -57,18 +58,19 @@ add_total_row <- function(df, .na_rm = FALSE) {
 #' @export
 add_mean_row <- function(df, .na_rm = FALSE) {
   if("grouped_df" %in% class(df)){ df %<>% dplyr::ungroup() }
-  df %>%
+  added_row <-
+    df %>%
+      dplyr::select_if(is.numeric) %>%
+      purrr::map_dbl(mean, na.rm = .na_rm) %>%
+      as.data.frame %>%
+      t %>%
+      tibble::as_tibble()
+
+  df %<>%
     dplyr::mutate_at(1, function(x) ifelse(is.na(x), 'NA', as.character(x))) %>%
-    dplyr::bind_rows(
-      df %>%
-        dplyr::select(-1) %>%
-        purrr::map_dbl(mean, na.rm = .na_rm) %>%
-        as.data.frame %>%
-        t %>%
-        tibble::as_tibble()
-    ) %>%
-    dplyr::mutate_at(1, function(x) ifelse(is.na(x), 'Average', x)) %>%
-    return
+    dplyr::bind_rows(added_row)
+  df[nrow(df), 1] <- "Average"
+  return(df)
 }
 
 
@@ -82,28 +84,29 @@ pct_missings_chr <- function(df) {
 #' @description
 #' Get a snapshot preview of what variables are available and what they look like.
 #'
-#' @param df the input dataframe
+#' @param df              the input dataframe
 #' @param num_unique_vals number of unique values to display
+#' @param sort_examples   whether first few examples or random
 #'
 #' @return Dataframe with Unique Values, Percent Missing and Examples
 #' @examples
 #' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
 #' checkVariables(df)
 #' @export
-check_variables <- function(df, num_unique_vals = 3) {
+check_variables <- function(df, num_unique_vals = 3, sort_examples = FALSE) {
   ## How many unique values do variables take on?
-  dplyr::bind_cols(
-    df %>%
-      purrr::map_df(~ .x %>% unique %>% length %>% as.character) %>%
-      dplyr::bind_rows(df %>% pct_missings_chr) %>%
-      dplyr::bind_rows(df %>%
-                         purrr::map_df(~ paste(
-                           .x %>%
-                             unique %>%
-                             na.omit %>%
-                             head(num_unique_vals),
-                           collapse = ", ")))
-  ) %>%
+  df %>%
+    purrr::map_df(~ .x %>% unique %>% length %>% as.character) %>%
+    dplyr::bind_rows(df %>% pct_missings_chr) %>%
+    dplyr::bind_rows(df %>%
+                       purrr::map_df(~ paste(
+                         .x %>%
+                           unique %>%
+                           na.omit %>%
+                           {if(sort_examples) sort(.) else .} %>%
+                           head(num_unique_vals),
+                         collapse = ", "))) %>%
+    dplyr::bind_cols() %>%
     t %>%
     as.data.frame %>%
     magrittr::set_names(c('Unique Values', 'Percent Missing', 'Example Values'))
@@ -155,7 +158,8 @@ write_excel <-
   function(dfs,
            workbook_fname,
            sheet_names,
-           title_names = FALSE) {
+           title_names = FALSE,
+           add_row_border = FALSE) {
 
     ## Transform to list if only single dataframe
     if ("data.frame" %in% class(dfs)) {
@@ -165,6 +169,9 @@ write_excel <-
     ## Fill sheet_names with object names as default
     if (missing(sheet_names)) {
       sheet_names <- names(dfs)
+      if(is.null(sheet_names)) {
+        stop("Data input not named and no sheet names specified. \nUse a named list or specify sheet names.")
+      }
     }
 
     wb <- XLConnect::loadWorkbook(workbook_fname, create = TRUE)
@@ -182,12 +189,14 @@ write_excel <-
     XLConnect::setFillPattern(
       csHeader,
       fill  = XLConnect::XLC$FILL.NO_FILL)
-    XLConnect::setBorder(
-      csHeader,
-      side  = "bottom",
-      type  = XLConnect::XLC$BORDER.THIN,
-      color = XLConnect::XLC$COLOR.BLACK
-    )
+    if(add_row_border) {
+      XLConnect::setBorder(
+        csHeader,
+        side  = "bottom",
+        type  = XLConnect::XLC$BORDER.THIN,
+        color = XLConnect::XLC$COLOR.BLACK
+      )
+    }
 
     ## Map to sheets
     purrr::map2(dfs, sheet_names,
@@ -247,7 +256,13 @@ write_regression_to_excel <- function(reg_models,
   if ("lm" %in% class(reg_models)) {
     reg_models <- list(mod = reg_models)
   }
-
+  ## Fill sheet_names with object names as default
+  if (missing(sheets)) {
+    sheets <- names(reg_models)
+    if(is.null(sheets)) {
+      stop("Data input not named and no sheet names specified. \nUse a named list or specify sheet names.")
+    }
+  }
   tidy_regs <- purrr::map(reg_models, broom::tidy)
 
   write_excel(tidy_regs,

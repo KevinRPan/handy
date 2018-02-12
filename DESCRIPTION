@@ -1,25 +1,30 @@
 Package: handy
-Title: Useful Functionality for Miscellaneous Data Processing
+Title: Commonly Used Functions For Handling Data
 Version: 0.1.0
-Authors@R: person("Kevin", "Pan", email = "kevin.r.pan@gmail.com", role = c("aut", "cre"))
+Authors@R: person("Kevin", "Pan", email = "dev@kevinrpan.com", role = c("aut", "cre"))
 Description: This package provides handy functions 
     for examining, manipulating, and outputting data. 
-Depends: R (>= 3.3.2)
+    See vignette('handy-intro') for details. 
+Depends: R (>= 3.4.0)
 License: GPL-3.
 Encoding: UTF-8
 LazyData: true
 Imports:
+    broom,
     dplyr, 
+    grid,
     magrittr, 
     purrr,
     stringr,
-    tidyverse,
-    XLConnect,
     tibble,
     tidyr,
-    XLConnectJars,
-    broom,
-    grid
+    tidyverse,
+    XLConnect,
+    XLConnectJars
 Suggests:
-    DT
+    DT,
+    knitr,
+    rmarkdown
+BugReports: https://github.com/kevinrpan/handy/issues
+VignetteBuilder: knitr
 RoxygenNote: 6.0.1

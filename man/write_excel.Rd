@@ -4,7 +4,8 @@
 \alias{write_excel}
 \title{Write to Excel}
 \usage{
-write_excel(dfs, workbook_fname, sheet_names, title_names = FALSE)
+write_excel(dfs, workbook_fname, sheet_names, title_names = FALSE,
+  add_row_border = FALSE)
 }
 \arguments{
 \item{dfs}{the input dataframes as a list}

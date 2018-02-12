@@ -4,12 +4,14 @@
 \alias{check_variables}
 \title{Check variables in the dataset}
 \usage{
-check_variables(df, num_unique_vals = 3)
+check_variables(df, num_unique_vals = 3, sort_examples = FALSE)
 }
 \arguments{
 \item{df}{the input dataframe}
 
 \item{num_unique_vals}{number of unique values to display}
+
+\item{sort_examples}{whether first few examples or random}
 }
 \value{
 Dataframe with Unique Values, Percent Missing and Examples

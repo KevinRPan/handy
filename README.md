@@ -45,6 +45,7 @@ These functions are ones that I've found handy.
 | `check_variables` |  Describe Data   | Calculate % missing and number of unique values for all variables |
 | `%p%`             |  Shorthand       | Allow string concatenation by piping |
 | `cs`              |  Shorthand       | Makes a character vector without quotes |
+| `named_list`      |  Shorthand       | Makes a named list using object names |
 | `multiplot`       |  Plotting        | Arrange multiple plots |
 | `scale_x_human`   |  Plotting        | Scales ggplot axis to easily readable K, M, B, etc. |
 | `scale_y_human`   |  Plotting        | Scales ggplot axis to easily readable K, M, B, etc. |

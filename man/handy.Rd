@@ -4,7 +4,7 @@
 \name{handy}
 \alias{handy}
 \alias{handy-package}
-\title{handy: A package that contains several commonly used functions for cleaning and examining data.}
+\title{handy: Commonly used functions for handling data.}
 \description{
-The handy package provides some functions that I found handy.
+handy: Commonly used functions for handling data.
 }

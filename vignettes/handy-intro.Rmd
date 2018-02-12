@@ -1,0 +1,133 @@
+---
+title: "Introduction to handy"
+author: "Kevin Pan"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Philosophy 
+
+There are common steps that you may face in your data exploration:
+
+- Import (messy) data
+- **Clean** messy data
+- **Describe** cleaned data
+- **Plot** cleaned data
+- Model data
+- **Write** output tables
+
+This package aims to facilitate this basic data handling with functions that I've found handy. 
+
+## Quick Reference Table
+
+| handy Function    | Use Case     | Description |
+|-------------------|--------------|----------------------|
+| `clean_names`     |  Clean Data      | Normalize variable names of a data.frame to snake_case |
+| `title_names`     |  Clean Data      | Normalize variable names of a data.frame to Title Case |
+| `remove_columns`  |  Clean Data      | Removes columns that are either missing or non-unique |   
+| `add_mean_row`    |  Describe Data   | Add a mean row to a data.frame of numeric values |
+| `add_total_row`   |  Describe Data   | Add a total row to a data.frame of numeric values |
+| `check_variables` |  Describe Data   | Calculate % missing and number of unique values for all variables |
+| `%p%`             |  Shorthand       | Allow string concatenation by piping |
+| `cs`              |  Shorthand       | Makes a character vector without quotes |
+| `named_list`      |  Shorthand       | Makes a named list using object names |
+| `multiplot`       |  Plotting        | Arrange multiple plots |
+| `scale_x_human`   |  Plotting        | Scales ggplot axis to easily readable K, M, B, etc. |
+| `scale_y_human`   |  Plotting        | Scales ggplot axis to easily readable K, M, B, etc. |
+| `write_excel`     |  Write Output    | Write a list of data.frames in R to named sheets in an Excel workbook |
+| `write_regression_to_excel` | Write Output | Write a list of data.frames in R to named sheets in an Excel workbook |
+
+
+## Clean 
+
+Let's use R's built in `iris` dataset. 
+
+These cleaning functions are built to be compatible with magrittr/dplyr pipes. 
+
+```{r}
+library(handy)
+library(magrittr)
+library(knitr)
+iris3obs <- head(iris, 3) 
+iris3obs %>% kable()
+iris3obs %>% clean_names %>% kable()
+```
+
+What if we want to focus on columns that change for the set we're looking for?
+
+```{r}
+iris3obs %>% remove_columns(1) %>% kable()
+```
+
+## Describe
+
+For every dataset, we want to know what it contains: 
+```{r}
+mtcars %>% check_variables %>% kable
+```
+
+Sometimes it's helpful to add a mean or total row for a table that's to be printed out. 
+These are best for datasets with a character key as the first column. 
+```{r}
+arrests <- USArrests %>% tibble::rownames_to_column() %>% dplyr::as_tibble()
+arrests %>% head %>% add_mean_row %>% kable
+arrests %>% head %>% add_total_row %>% kable
+```
+
+## Plot 
+
+```{r}
+library(ggplot2)
+p1 <- Seatbelts %>% tibble::as_tibble() %>% 
+  ggplot(aes(kms, DriversKilled)) +
+  geom_point() +
+  scale_x_human() 
+p2 <- Seatbelts %>% tibble::as_tibble() %>% 
+  ggplot(aes(DriversKilled)) +
+  geom_histogram(alpha = .5, bins = 30)
+multiplot(p1, p2)
+```
+
+## Write
+
+And for some analyses, it's nice to write out the final data to Excel.
+
+```{r}
+named_list(mtcars, iris) %>% 
+  write_excel(workbook_fname = 'wb.xlsx')
+
+readxl::excel_sheets('wb.xlsx')
+readxl::read_excel('wb.xlsx', sheet = 'iris') %>% head %>% kable
+```
+
+Here, using `named_list` assembles a list with the list names set to the names of the objects.
+
+```{r}
+lm_assault <- lm(Assault ~ UrbanPop, data = arrests)
+lm_anscombe <- lm(y1 ~ x1, data = anscombe)
+reg_list <- named_list(lm_assault, lm_anscombe)
+
+reg_list
+
+reg_list %>% write_regression_to_excel('reg.xlsx')
+readxl::read_excel('reg.xlsx', sheet = 'lm_anscombe') %>% head %>% kable
+```
+
+## Other
+
+What do we have in memory at this point?
+```{r}
+lsos(n = 5) %>% kable
+```
+

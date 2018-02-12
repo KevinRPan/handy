@@ -4,4 +4,6 @@
 .Ruserdata
 .Rbuildignore
 test_reg.xlsx
-wb.xlsx
+*.xlsx
+*.Rproj
+inst/doc

@@ -30,6 +30,33 @@ cs <- function(...){
   return(strings)
 }
 
+#' @title Named List
+#' @name named_list
+#'
+#' @description
+#' Set the names of a list object as the same as the object itself
+#'
+#' @param ... objects to be passed into a list object
+#'
+#' @return A named list containing the input objects.
+#'
+#' @examples
+#' a <- TRUE
+#' b <- 1:5
+#' named_list(a, b)
+#' #> $a
+#' #> [1] TRUE
+#' #>
+#' #> $b
+#' #> [1] 1 2 3 4 5
+#'
+#' @export
+named_list <- function(...){
+  strings <- as.character(match.call(expand.dots = FALSE)[[2]])
+  named_list <- list(...) %>% magrittr::set_names(strings)
+  return(named_list)
+}
+
 #' @title Standardize variable names
 #' @name make_names
 #'
