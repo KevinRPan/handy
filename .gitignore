@@ -3,7 +3,10 @@
 .RData
 .Ruserdata
 .Rbuildignore
+reg.xlsx
 test_reg.xlsx
+test.rmd
+test.html
 *.xlsx
 *.Rproj
 inst/doc

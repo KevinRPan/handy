@@ -24,7 +24,8 @@ Imports:
 Suggests:
     DT,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 BugReports: https://github.com/kevinrpan/handy/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
