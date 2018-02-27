@@ -25,7 +25,8 @@ Suggests:
     DT,
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    covr
 BugReports: https://github.com/kevinrpan/handy/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1

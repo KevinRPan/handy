@@ -6,6 +6,10 @@ This package aims to reduce repetitive data cleaning code into easy to use funct
 
 ## Installation
 
+[![Travis-CI Build Status](https://travis-ci.org/KevinRPan/handy.svg?branch=master)](https://travis-ci.org/KevinRPan/handy)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/KevinRPan/handy?branch=master&svg=true)](https://ci.appveyor.com/project/KevinRPan/handy)
+[![Coverage Status](https://img.shields.io/codecov/c/github/KevinRPan/handy/master.svg)](https://codecov.io/github/KevinRPan/handy?branch=master)
+
 The user can use the **devtools** package to install the development version:
 
 ```r
