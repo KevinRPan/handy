@@ -106,7 +106,10 @@ check_variables <- function(df, num_unique_vals = 3, sort_examples = FALSE) {
     dplyr::bind_cols() %>%
     t %>%
     as.data.frame %>%
-    magrittr::set_names(c('Unique Values', 'Percent Missing', 'Example Values'))
+    magrittr::set_names(c('Unique Values', 'Percent Missing', 'Example Values')) %>%
+    dplyr::mutate_all(as.character) %>%
+    dplyr::mutate_at(1:2, as.numeric) %>%
+    tibble::rownames_to_column('Variable')
 }
 
 #' @title Spread based on selected variables
