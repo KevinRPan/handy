@@ -23,7 +23,8 @@ Imports:
     tidyr,
     XLConnect,
     XLConnectJars,
-    utils
+    utils,
+    scales
 Suggests:
     covr,
     DT,
