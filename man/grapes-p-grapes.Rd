@@ -7,7 +7,9 @@
 x1 \%p\% x2
 }
 \arguments{
-\item{x1}{}
+\item{x1}{string 1 to paste}
+
+\item{x2}{string 2 to paste}
 }
 \description{
 Paste characters.

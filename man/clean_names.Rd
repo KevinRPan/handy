@@ -17,5 +17,5 @@ Normalize names to lowercase separated by underscores from character vector.
 }
 \examples{
 d <- data.frame(list('An'=1, 'ex.amPLE'=2, ' of me$$y'=3, 'var__i@ble names  '=4))
-normVarNames(d)
+clean_names(d)
 }

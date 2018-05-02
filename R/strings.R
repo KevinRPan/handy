@@ -4,7 +4,8 @@
 #' @title Paste magic function
 #' @description Paste characters.
 #'
-#' @param x1
+#' @param x1 string 1 to paste
+#' @param x2 string 2 to paste
 #'
 #' @export
 `%p%` <- function(x1, x2) {

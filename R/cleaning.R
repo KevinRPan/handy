@@ -16,6 +16,6 @@
 #' remove_columns(df, 0)
 #' @export
 remove_columns <- function(df, .uniqueness = 1) {
-  return(df[sapply(df, function(.x) length(unique(na.omit(.x))) > .uniqueness)])
+  return(df[sapply(df, function(.x) length(unique(stats::na.omit(.x))) > .uniqueness)])
 }
 

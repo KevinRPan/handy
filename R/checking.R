@@ -39,7 +39,7 @@ check_variables <- function(df, num_unique_vals = 3, sort_examples = FALSE) {
                        purrr::map_df(~ paste(
                          .x %>%
                            unique %>%
-                           na.omit %>%
+                           stats::na.omit %>%
                            {if(sort_examples) sort(.) else .} %>%
                            head(num_unique_vals),
                          collapse = ", "))) %>%

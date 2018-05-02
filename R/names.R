@@ -94,7 +94,7 @@ title_names <- function(df) {
 #' @return A dataframe with normalized variable names.
 #' @examples
 #' d <- data.frame(list('An'=1, 'ex.amPLE'=2, ' of me$$y'=3, 'var__i@ble names  '=4))
-#' normVarNames(d)
+#' clean_names(d)
 #' @export
 clean_names <- function(df) {
   # Function to clean up column names

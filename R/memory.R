@@ -12,7 +12,7 @@ devtools::use_package("utils")
   obj_type <- ifelse(is.na(obj_class), obj_mode, obj_class)
   obj_prettysize <- napply(obj_names, function(x) {
     format(utils::object.size(x), units = "auto") })
-  obj_size <- napply(obj_names, object.size)
+  obj_size <- napply(obj_names, utils::object.size)
   obj_dim <- t(napply(obj_names, function(x)
     as.numeric(dim(x))[1:2]))
   vec <- is.na(obj_dim)[, 1] & (obj_type != "function")
