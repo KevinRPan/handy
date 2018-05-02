@@ -2,12 +2,24 @@
 % Please edit documentation in R/plotting.R
 \name{human_numbers}
 \alias{human_numbers}
+\alias{scale_y_human}
+\alias{scale_x_human}
+\alias{human_num}
+\alias{human_usd}
 \title{Human Numbers}
 \source{
 https://github.com/fdryan/R/blob/master/ggplot2_formatter.r
 }
 \usage{
 human_numbers(x = NULL, smbl = "", signif = 1)
+
+scale_y_human(..., smbl = "", signif = 1)
+
+scale_x_human(..., smbl = "", signif = 1)
+
+human_num(x)
+
+human_usd(x)
 }
 \arguments{
 \item{x}{a numeric vector to format,}
@@ -34,4 +46,6 @@ human_numbers(c(1000000 , 1500000, 10000000000))
 human_numbers(c(1.200000e+05, -2.154660e+05, 2.387790e+05, 4.343500e+04 ,5.648675e+12), "$")
 ggplot2 + scale_y_continuous(labels = human_numbers)
 ggplot2 + scale_x_continuous(labels = human_numbers)
+ggplot2 + scale_y_human()
+ggplot2 + scale_x_human()
 }

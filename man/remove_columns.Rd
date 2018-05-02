@@ -18,6 +18,9 @@ Note: using 0 will remove columns where all observations are NA.
 \description{
 Remove columns with less than a specified number of distinct values.
 }
+\details{
+Functions to help with data cleaning
+}
 \examples{
 df <- head(data.frame('x' = letters, 'y' = rep(0, length(letters)), z = rep(NA, length(letters))))
 remove_columns(df)

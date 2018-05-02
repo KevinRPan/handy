@@ -4,17 +4,17 @@
 \alias{write_regression_to_excel}
 \title{Write a regression to Excel}
 \usage{
-write_regression_to_excel(reg_models, excel_file_name, sheets,
+write_regression_to_excel(reg_models, workbook_fname, sheet_names,
   title_names = TRUE)
 }
 \arguments{
 \item{reg_models}{regression models, as a list}
 
-\item{title_names}{whether to title format variable names}
-
 \item{workbook_fname}{workbook file name to save to}
 
 \item{sheet_names}{formatted names of sheets}
+
+\item{title_names}{whether to title format variable names}
 }
 \value{
 nothing

@@ -25,5 +25,5 @@ Select and spread data
 }
 \examples{
 df <- data.frame('id' = c(rep('x',2), rep('y',3),'z'), 'g' = letters[1:6], 'v' = 1:6)
-spreadColumn(df, 'id','g','v')
+spread_column(df, 'id','g','v')
 }

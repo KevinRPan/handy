@@ -7,14 +7,16 @@
 http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
 }
 \usage{
-multiplot(..., plotlist = NULL, file, cols = 1, layout = NULL)
+multiplot(..., plotlist = NULL, cols = 1, layout = NULL)
 }
 \arguments{
 \item{...}{ggplot objects can be passed in ..., or to plotlist (as a list of ggplot objects)}
 
+\item{plotlist}{List object of plots. Can be specified in addition to individual plots}
+
 \item{cols}{Number of columns in layout}
 
-\item{layout}{A matrix specifying the layout. If present, 'cols' is ignored.}
+\item{layout}{Matrix specifying the layout. If present, 'cols' is ignored.}
 }
 \value{
 arrangement of plots
@@ -28,13 +30,13 @@ then plot 1 will go in the upper left, 2 will go in the upper right, and
 \examples{
 
 library(ggplot2)
-This example uses the ChickWeight dataset, which comes with ggplot2
-First plot
+# This example uses the ChickWeight dataset, which comes with ggplot2
+# First plot
 p1 <- ggplot(ChickWeight, aes(x=Time, y=weight, colour=Diet, group=Chick)) +
 geom_line() +
  ggtitle("Growth curve for individual chicks")
 
-Second plot
+# Second plot
 p2 <- ggplot(ChickWeight, aes(x=Time, y=weight, colour=Diet)) +
  geom_point(alpha=.3) +
  geom_smooth(alpha=.2, size=1) +

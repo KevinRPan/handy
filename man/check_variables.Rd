@@ -21,5 +21,5 @@ Get a snapshot preview of what variables are available and what they look like.
 }
 \examples{
 df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
-checkVariables(df)
+check_variables(df)
 }

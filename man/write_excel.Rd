@@ -15,6 +15,8 @@ write_excel(dfs, workbook_fname, sheet_names, title_names = FALSE,
 \item{sheet_names}{(optional) formatted names of sheets, if not using object names as defaults}
 
 \item{title_names}{(optional) whether to title format variable names}
+
+\item{add_row_border}{(optional) whether to include an underline border under the names row}
 }
 \value{
 nothing

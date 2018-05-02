@@ -7,11 +7,11 @@
 quarter_as_date(year, quarter, day = 1)
 }
 \arguments{
-\item{year}{a year that makes sense}
+\item{year}{a year}
 
 \item{quarter}{a quarter, 1 to 4}
 
-\item{day}{a day that makes sense}
+\item{day}{a day}
 }
 \value{
 a date variable according to the start date of the quarter
