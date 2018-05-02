@@ -132,9 +132,9 @@ write_regression_to_excel <- function(reg_models,
     reg_models <- list(mod = reg_models)
   }
   ## Fill sheet_names with object names as default
-  if (missing(sheets)) {
-    sheets <- names(reg_models)
-    if(is.null(sheets)) {
+  if (missing(sheet_names)) {
+    sheet_names <- names(reg_models)
+    if(is.null(sheet_names)) {
       stop("Data input not named and no sheet names specified. \nUse a named list or specify sheet names.")
     }
   }

@@ -21,6 +21,8 @@ mtcars %>% check_variables %>% kable
 ## ------------------------------------------------------------------------
 arrests <- USArrests %>% tibble::rownames_to_column() %>% dplyr::as_tibble()
 arrests %>% head %>% add_mean_row %>% kable
+
+## ------------------------------------------------------------------------
 arrests %>% head %>% add_total_row %>% kable
 
 ## ------------------------------------------------------------------------

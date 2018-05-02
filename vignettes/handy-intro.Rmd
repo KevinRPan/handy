@@ -82,6 +82,9 @@ These are best for datasets with a character key as the first column.
 ```{r}
 arrests <- USArrests %>% tibble::rownames_to_column() %>% dplyr::as_tibble()
 arrests %>% head %>% add_mean_row %>% kable
+```
+
+```{r}
 arrests %>% head %>% add_total_row %>% kable
 ```
 
