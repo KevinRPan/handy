@@ -8,6 +8,7 @@ devtools::use_package("ggplot2")
 devtools::use_package("grid")
 devtools::use_package("lubridate")
 devtools::use_package("magrittr")
+devtools::use_package("scales")
 devtools::use_package("stringr")
 
 #' @title quarter_as_date
@@ -51,10 +52,10 @@ quarter_as_date <- function(year, quarter, day = 1) {
 #' @examples
 #' human_numbers(c(1000000 , 1500000, 10000000000))
 #' human_numbers(c(1.200000e+05, -2.154660e+05, 2.387790e+05, 4.343500e+04 ,5.648675e+12), "$")
-#' ggplot2 + scale_y_continuous(labels = human_numbers)
-#' ggplot2 + scale_x_continuous(labels = human_numbers)
-#' ggplot2 + scale_y_human()
-#' ggplot2 + scale_x_human()
+#' #ggplot2 + scale_y_continuous(labels = human_numbers)
+#' #ggplot2 + scale_x_continuous(labels = human_numbers)
+#' #ggplot2 + scale_y_human()
+#' #ggplot2 + scale_x_human()
 #' @source https://github.com/fdryan/R/blob/master/ggplot2_formatter.r
 #' @rdname human_numbers
 #' @family plotting functions
