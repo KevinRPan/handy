@@ -12,22 +12,25 @@ LazyData: true
 Imports:
     broom,
     devtools,
-    dplyr, 
+    dplyr,
+    ggplot2,
     grid,
+    lubridate,
     magrittr, 
     purrr,
     stringr,
     tibble,
     tidyr,
-    tidyverse,
     XLConnect,
-    XLConnectJars
+    XLConnectJars,
+    utils
 Suggests:
+    covr,
     DT,
     knitr,
+    readxl,
     rmarkdown,
-    testthat,
-    covr
+    testthat
 BugReports: https://github.com/kevinrpan/handy/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1

@@ -1,3 +1,5 @@
+#' Functions to help with data checks
+
 #' @importFrom magrittr "%>%"
 #' @importFrom magrittr "%<>%"
 
@@ -7,68 +9,6 @@ devtools::use_package("tibble")
 devtools::use_package("tidyr")
 devtools::use_package("magrittr")
 devtools::use_package("stringr")
-
-#' @title Add a total row to a dataframe
-#'
-#' @description
-#' Add a total row to a dataframe where the first column is the category.
-#'
-#' @param df the input dataframe
-#' @param .na_rm option to remove NA from sum
-#'
-#' @return Dataframe with an added row for the totals of numeric variables.
-#' May require explicitly converting NAs.
-#' @examples
-#' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
-#' addTotalRow(df)
-#' @export
-add_total_row <- function(df, .na_rm = FALSE) {
-  if("grouped_df" %in% class(df)){ df %<>% dplyr::ungroup() }
-
-  added_row <- df %>%
-    dplyr::select_if(is.numeric) %>%
-    purrr::map_dbl(sum, na.rm = .na_rm) %>%
-    as.data.frame %>%
-    t %>%
-    tibble::as_tibble()
-
-  df %<>%
-    dplyr::mutate_at(1, function(x) ifelse(is.na(x), 'NA', as.character(x))) %>%
-    dplyr::bind_rows(added_row)
-  df[nrow(df), 1] <- "Total"
-  return(df)
-}
-
-#' @title Add a mean row to a dataframe
-#'
-#' @description
-#' Add a mean row to a dataframe where the first column is the category.
-#'
-#' @param df the input dataframe
-#' @param .na_rm option to remove NA from sum
-#'
-#' @return Dataframe with an added row for the totals of numeric variables.
-#' May require explicitly converting NAs.
-#' @examples
-#' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
-#' addTotalRow(df)
-#' @export
-add_mean_row <- function(df, .na_rm = FALSE) {
-  if("grouped_df" %in% class(df)){ df %<>% dplyr::ungroup() }
-  added_row <-
-    df %>%
-      dplyr::select_if(is.numeric) %>%
-      purrr::map_dbl(mean, na.rm = .na_rm) %>%
-      as.data.frame %>%
-      t %>%
-      tibble::as_tibble()
-
-  df %<>%
-    dplyr::mutate_at(1, function(x) ifelse(is.na(x), 'NA', as.character(x))) %>%
-    dplyr::bind_rows(added_row)
-  df[nrow(df), 1] <- "Average"
-  return(df)
-}
 
 
 pct_missings_chr <- function(df) {
@@ -88,7 +28,7 @@ pct_missings_chr <- function(df) {
 #' @return Dataframe with Unique Values, Percent Missing and Examples
 #' @examples
 #' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
-#' checkVariables(df)
+#' check_variables(df)
 #' @export
 check_variables <- function(df, num_unique_vals = 3, sort_examples = FALSE) {
   ## How many unique values do variables take on?
@@ -126,7 +66,7 @@ check_variables <- function(df, num_unique_vals = 3, sort_examples = FALSE) {
 #' @return dataframe that is spread based on values
 #' @examples
 #' df <- data.frame('id' = c(rep('x',2), rep('y',3),'z'), 'g' = letters[1:6], 'v' = 1:6)
-#' spreadColumn(df, 'id','g','v')
+#' spread_column(df, 'id','g','v')
 #' @export
 spread_column <- function(df, group_cols, spread_col, spread_val, fill_val = 0) {
   df %>%

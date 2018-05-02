@@ -1,19 +1,22 @@
+#' Functions to help with plotting
+
 #' @importFrom magrittr "%>%"
 #' @importFrom magrittr "%<>%"
 
 devtools::use_package("dplyr")
-devtools::use_package("tidyverse")
+devtools::use_package("ggplot2")
+devtools::use_package("grid")
+devtools::use_package("lubridate")
 devtools::use_package("magrittr")
 devtools::use_package("stringr")
-devtools::use_package("grid")
 
 #' @title quarter_as_date
 #' @description Convert discrete year and quarter to date for plotting purposes.
 #'
 #' @return a date variable according to the start date of the quarter
-#' @param year a year that makes sense
+#' @param year a year
 #' @param quarter a quarter, 1 to 4
-#' @param day a day that makes sense
+#' @param day a day
 #'
 #' @examples
 #' quarter_as_date(2008, 1, 15)
@@ -26,14 +29,6 @@ quarter_as_date <- function(year, quarter, day = 1) {
                        day = day)
 }
 
-
-#' @title Paste magic function
-#' @description Paste characters. Yay.
-#'
-#' @export
-`%p%` <- function(x1, x2) {
-  paste0(x1, x2)
-}
 
 # ---------------------------------------------------------------------------------------------
 # Formatting functions for ggplot  graph axis
@@ -58,7 +53,11 @@ quarter_as_date <- function(year, quarter, day = 1) {
 #' human_numbers(c(1.200000e+05, -2.154660e+05, 2.387790e+05, 4.343500e+04 ,5.648675e+12), "$")
 #' ggplot2 + scale_y_continuous(labels = human_numbers)
 #' ggplot2 + scale_x_continuous(labels = human_numbers)
+#' ggplot2 + scale_y_human()
+#' ggplot2 + scale_x_human()
 #' @source https://github.com/fdryan/R/blob/master/ggplot2_formatter.r
+#' @rdname human_numbers
+#' @family plotting functions
 #' @export
 
 human_numbers <- function(x = NULL, smbl ="", signif = 1){
@@ -85,7 +84,7 @@ human_numbers <- function(x = NULL, smbl ="", signif = 1){
       }else if(tn < 1){
         paste0 (y_is_positive, smbl, b ,"bn")
       } else {
-        paste0 (y_is_positive, smbl,  comma(tn), "tn")
+        paste0 (y_is_positive, smbl,  scales::comma(tn), "tn")
       }
     } else if (is.na(y) | is.null(y)){
       "-"
@@ -95,18 +94,24 @@ human_numbers <- function(x = NULL, smbl ="", signif = 1){
   sapply(x,humanity)
 }
 
+
+#' @rdname human_numbers
 #' @export
 scale_y_human <- function(..., smbl = "", signif = 1) {
-  scale_y_continuous(labels = function(x) human_numbers(x, smbl = smbl, signif = signif), ...)
-}
-#' @export
-scale_x_human <- function(..., smbl = "", signif = 1) {
-  scale_x_continuous(labels = function(x) human_numbers(x, smbl = smbl, signif = signif), ...)
+  ggplot2::scale_y_continuous(labels = function(x) human_numbers(x, smbl = smbl, signif = signif), ...)
 }
 
+#' @rdname human_numbers
+#' @export
+scale_x_human <- function(..., smbl = "", signif = 1) {
+  ggplot2::scale_x_continuous(labels = function(x) human_numbers(x, smbl = smbl, signif = signif), ...)
+}
+
+#' @rdname human_numbers
 #' @export
 human_num   <- function(x){human_numbers(x, smbl = "")}
 
+#' @rdname human_numbers
 #' @export
 human_usd   <- function(x){human_numbers(x, smbl = "$")}
 
@@ -120,17 +125,18 @@ human_usd   <- function(x){human_numbers(x, smbl = "$")}
 #' @return arrangement of plots
 #' @param ...    ggplot objects can be passed in ..., or to plotlist (as a list of ggplot objects)
 #' @param cols   Number of columns in layout
-#' @param layout A matrix specifying the layout. If present, 'cols' is ignored.
+#' @param layout Matrix specifying the layout. If present, 'cols' is ignored.
+#' @param plotlist List object of plots. Can be specified in addition to individual plots
 #' @examples
 #'
 #' library(ggplot2)
-#' This example uses the ChickWeight dataset, which comes with ggplot2
-#' First plot
+#' # This example uses the ChickWeight dataset, which comes with ggplot2
+#' # First plot
 #' p1 <- ggplot(ChickWeight, aes(x=Time, y=weight, colour=Diet, group=Chick)) +
 #' geom_line() +
 #'  ggtitle("Growth curve for individual chicks")
 #'
-#' Second plot
+#' # Second plot
 #' p2 <- ggplot(ChickWeight, aes(x=Time, y=weight, colour=Diet)) +
 #'  geom_point(alpha=.3) +
 #'  geom_smooth(alpha=.2, size=1) +
@@ -139,7 +145,7 @@ human_usd   <- function(x){human_numbers(x, smbl = "$")}
 #' multiplot(p1, p2)
 #' @source http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
 #' @export
-multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
 
   # Make a list from the ... arguments and plotlist
   plots <- c(list(...), plotlist)

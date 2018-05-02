@@ -1,9 +1,11 @@
+#' Functions to help with writing data, especially to Excel
+
 #' @importFrom magrittr "%>%"
 #' @importFrom magrittr "%<>%"
 
-devtools::use_package("purrr")
 devtools::use_package("broom")
 devtools::use_package("magrittr")
+devtools::use_package("purrr")
 devtools::use_package("stringr")
 devtools::use_package("XLConnect")
 devtools::use_package("XLConnectJars")
@@ -18,6 +20,7 @@ devtools::use_package("XLConnectJars")
 #' @param workbook_fname workbook file name to save to
 #' @param sheet_names (optional) formatted names of sheets, if not using object names as defaults
 #' @param title_names (optional) whether to title format variable names
+#' @param add_row_border (optional) whether to include an underline border under the names row
 #'
 #' @return nothing
 #' @examples
@@ -76,7 +79,7 @@ write_excel <-
                   XLConnect::createSheet(wb, sheet_name)
                   if (title_names) {
                     df %<>%
-                      setNames(names(df) %>%
+                      magrittr::set_names(names(df) %>%
                                  stringr::str_replace_all('_', ' ') %>%
                                  stringr::str_to_title())
                   }
@@ -119,8 +122,8 @@ write_excel <-
 #' write_regression_to_excel(mod_list, 'simple_reg.xlsx', c("Cylinder Model", "HP Model"))
 #' @export
 write_regression_to_excel <- function(reg_models,
-                                      excel_file_name,
-                                      sheets,
+                                      workbook_fname,
+                                      sheet_names,
                                       title_names = TRUE
 ) {
 
@@ -138,7 +141,7 @@ write_regression_to_excel <- function(reg_models,
   tidy_regs <- purrr::map(reg_models, broom::tidy)
 
   write_excel(tidy_regs,
-              workbook_fname = excel_file_name,
-              sheet_names = sheets,
+              workbook_fname = workbook_fname,
+              sheet_names = sheet_names,
               title_names = title_names)
 }

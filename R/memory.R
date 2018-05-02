@@ -1,5 +1,8 @@
+#' Functions to check memory handling
 
-# improved list of objects
+devtools::use_package("utils")
+
+#' improved list of objects
 .ls.objects <- function (pos = 1, pattern, order_by,
                          decreasing=FALSE, head=FALSE, n=5) {
   napply <- function(obj_names, fn) sapply(obj_names, function(x) fn(get(x, pos = pos)))
