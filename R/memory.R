@@ -4,8 +4,14 @@ devtools::use_package("utils")
 
 #' improved list of objects
 #' @rdname lsos
-ls.objects <- function (pos = 1, pattern, order_by,
-                         decreasing=FALSE, head=FALSE, n=5) {
+#' @param pos (integer) position in search list
+#' @param pattern (character) an optional regular expression
+#' @param order_by (character or integer) which column to order by
+#' @param decreasing (logical) whether to sort by decreasing
+#' @param head (logical) whether to return the first part only
+#' }
+ls.objects <- function(pos = 1, pattern, order_by,
+                       decreasing = FALSE, head = FALSE, n = 5) {
   napply <- function(obj_names, fn) sapply(obj_names, function(x) fn(get(x, pos = pos)))
   obj_names <- ls(pos = pos, pattern = pattern)
 

@@ -76,7 +76,7 @@ make_names <- function(names) {
 title_names <- function(df) {
   df %<>%
     magrittr::set_names(
-      names(.) %>%
+      names(df) %>%
         stringr::str_replace_all('_', ' ') %>%
         stringr::str_to_title()
     )

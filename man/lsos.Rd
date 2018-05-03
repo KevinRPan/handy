@@ -16,6 +16,14 @@ ls.objects(pos = 1, pattern, order_by, decreasing = FALSE, head = FALSE,
 lsos(..., n = 10)
 }
 \arguments{
+\item{pos}{(integer) position in search list}
+
+\item{pattern}{(character) an optional regular expression}
+
+\item{order_by}{(character or integer) which column to order by}
+
+\item{decreasing}{(logical) whether to sort by decreasing}
+
 \item{n}{Numeric of how many objects to return}
 
 \item{...}{Other optional parameters:

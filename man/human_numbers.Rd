@@ -27,6 +27,8 @@ human_usd(x)
 \item{smbl}{a symbol you'd like to prefix your numbers by e.g. "$"}
 
 \item{signif}{the number of significant places you want the function to return}
+
+\item{...}{other arguments passed to scale_*_continuous}
 }
 \value{
 a character vector the same length as the input vector
