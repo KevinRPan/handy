@@ -24,6 +24,8 @@ lsos(..., n = 10)
 
 \item{decreasing}{(logical) whether to sort by decreasing}
 
+\item{head}{(logical) whether to return the first part only}
+
 \item{n}{Numeric of how many objects to return}
 
 \item{...}{Other optional parameters:

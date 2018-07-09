@@ -3,13 +3,13 @@
 #' @importFrom magrittr "%>%"
 #' @importFrom magrittr "%<>%"
 
-devtools::use_package("dplyr")
-devtools::use_package("ggplot2")
-devtools::use_package("grid")
-devtools::use_package("lubridate")
-devtools::use_package("magrittr")
-devtools::use_package("scales")
-devtools::use_package("stringr")
+usethis::use_package("dplyr")
+usethis::use_package("ggplot2")
+usethis::use_package("grid")
+usethis::use_package("lubridate")
+usethis::use_package("magrittr")
+usethis::use_package("scales")
+usethis::use_package("stringr")
 
 #' @title quarter_as_date
 #' @description Convert discrete year and quarter to date for plotting purposes.

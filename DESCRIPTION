@@ -23,6 +23,7 @@ Imports:
     tidyr,
     XLConnect,
     XLConnectJars,
+    usethis,
     utils,
     scales
 Suggests:

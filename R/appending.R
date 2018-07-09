@@ -3,10 +3,10 @@
 #' @importFrom magrittr "%>%"
 #' @importFrom magrittr "%<>%"
 
-devtools::use_package("dplyr")
-devtools::use_package("purrr")
-devtools::use_package("tibble")
-devtools::use_package("magrittr")
+usethis::use_package("dplyr")
+usethis::use_package("purrr")
+usethis::use_package("tibble")
+usethis::use_package("magrittr")
 
 #' @title Add a total row to a dataframe
 #'
