@@ -59,6 +59,7 @@ These cleaning functions are built to be compatible with magrittr/dplyr pipes.
 library(handy)
 library(magrittr)
 library(knitr)
+library(ggplot2)
 iris3obs <- head(iris, 3) 
 iris3obs %>% kable()
 iris3obs %>% clean_names %>% kable()
@@ -74,24 +75,23 @@ iris3obs %>% remove_columns(1) %>% kable()
 
 For every dataset, we want to know what it contains: 
 ```{r}
-mtcars %>% check_variables %>% kable
+mtcars %>% check_variables %>% kable()
 ```
 
 Sometimes it's helpful to add a mean or total row for a table that's to be printed out. 
 These are best for datasets with a character key as the first column. 
 ```{r}
 arrests <- USArrests %>% tibble::rownames_to_column() %>% dplyr::as_tibble()
-arrests %>% head %>% add_mean_row %>% kable
+arrests %>% head() %>% add_mean_row() %>% kable()
 ```
 
 ```{r}
-arrests %>% head %>% add_total_row %>% kable
+arrests %>% head() %>% add_total_row() %>% kable()
 ```
 
 ## Plot 
 
 ```{r}
-library(ggplot2)
 p1 <- Seatbelts %>% tibble::as_tibble() %>% 
   ggplot(aes(kms, DriversKilled)) +
   geom_point() +
@@ -111,7 +111,7 @@ named_list(mtcars, iris) %>%
   write_excel(workbook_fname = 'wb.xlsx')
 
 readxl::excel_sheets('wb.xlsx')
-readxl::read_excel('wb.xlsx', sheet = 'iris') %>% head %>% kable
+readxl::read_excel('wb.xlsx', sheet = 'iris') %>% head %>% kable()
 ```
 
 Here, using `named_list` assembles a list with the list names set to the names of the objects.
@@ -133,6 +133,6 @@ readxl::read_excel('reg.xlsx', sheet = 'lm_anscombe') %>% head %>% kable
 
 What do we have in memory at this point?
 ```{r}
-lsos(n = 5) %>% kable
+lsos(n = 5) %>% kable()
 ```
 

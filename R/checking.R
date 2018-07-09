@@ -54,7 +54,6 @@ check_variables <- function(df,
     tibble::rownames_to_column('Variable')
 
   var_breakdown$Variable <- names(df)
-  View(var_breakdown)
 
   var_breakdown
 }
