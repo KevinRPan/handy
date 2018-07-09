@@ -106,7 +106,7 @@ multiplot(p1, p2)
 
 And for some analyses, it's nice to write out the final data to Excel.
 
-```{r}
+```{r, eval=FALSE}
 named_list(mtcars, iris) %>% 
   write_excel(workbook_fname = 'wb.xlsx')
 
@@ -122,7 +122,9 @@ lm_anscombe <- lm(y1 ~ x1, data = anscombe)
 reg_list <- named_list(lm_assault, lm_anscombe)
 
 reg_list
+```
 
+```{r, eval=FALSE}
 reg_list %>% write_regression_to_excel('reg.xlsx')
 readxl::read_excel('reg.xlsx', sheet = 'lm_anscombe') %>% head %>% kable
 ```
