@@ -25,13 +25,16 @@ Writes a list of dataframe objects to an Excel workbook.
 \examples{
 # Basic Example
 mod <- lm(mpg ~ cyl, mtcars)
+\dontrun{
 write_regression_to_excel(mod, 'simple_reg.xlsx')
-
+}
 # Writing a list of regressions
 mod_hp <- lm(mpg ~ hp, mtcars)
 
 mod_list <- list(mod_cyl = mod, mod_hp = mod_hp)
+\dontrun{
 write_regression_to_excel(mod_list, 'mpg_regs.xlsx')
 
 write_regression_to_excel(mod_list, 'simple_reg.xlsx', c("Cylinder Model", "HP Model"))
+}
 }

@@ -30,9 +30,11 @@ pct_missings_chr <- function(df) {
 #' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
 #' check_variables(df)
 #' @export
-check_variables <- function(df, num_unique_vals = 3, sort_examples = FALSE) {
+check_variables <- function(df,
+                            num_unique_vals = 3,
+                            sort_examples = FALSE) {
   ## How many unique values do variables take on?
-  df %>%
+  var_breakdown <- df %>%
     purrr::map_df(~ .x %>% unique %>% length %>% as.character) %>%
     dplyr::bind_rows(df %>% pct_missings_chr) %>%
     dplyr::bind_rows(df %>%
@@ -50,6 +52,11 @@ check_variables <- function(df, num_unique_vals = 3, sort_examples = FALSE) {
     dplyr::mutate_all(as.character) %>%
     dplyr::mutate_at(1:2, as.numeric) %>%
     tibble::rownames_to_column('Variable')
+
+  var_breakdown$Variable <- names(df)
+  View(var_breakdown)
+
+  var_breakdown
 }
 
 #' @title Spread based on selected variables

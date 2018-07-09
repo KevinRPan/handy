@@ -26,7 +26,9 @@ Writes a list of dataframe objects to an Excel workbook.
 }
 \examples{
 df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
+\dontrun{
 write_excel(df,
             'wb.xlsx',
             title_names = TRUE)
+            }
 }

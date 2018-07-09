@@ -25,9 +25,11 @@ devtools::use_package("XLConnectJars")
 #' @return nothing
 #' @examples
 #' df <- data.frame('a' = letters, 'b' = 1:length(letters), 'c' = rep(NA, length(letters)))
+#' \dontrun{
 #' write_excel(df,
 #'             'wb.xlsx',
 #'             title_names = TRUE)
+#'             }
 #' @export
 write_excel <-
   function(dfs,
@@ -111,15 +113,18 @@ write_excel <-
 #' @examples
 #' # Basic Example
 #' mod <- lm(mpg ~ cyl, mtcars)
+#' \dontrun{
 #' write_regression_to_excel(mod, 'simple_reg.xlsx')
-#'
+#' }
 #' # Writing a list of regressions
 #' mod_hp <- lm(mpg ~ hp, mtcars)
 #'
 #' mod_list <- list(mod_cyl = mod, mod_hp = mod_hp)
+#' \dontrun{
 #' write_regression_to_excel(mod_list, 'mpg_regs.xlsx')
 #'
 #' write_regression_to_excel(mod_list, 'simple_reg.xlsx', c("Cylinder Model", "HP Model"))
+#' }
 #' @export
 write_regression_to_excel <- function(reg_models,
                                       workbook_fname,
